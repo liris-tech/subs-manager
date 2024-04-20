@@ -1,6 +1,6 @@
 Package.describe({
   name: 'liristech:subs-manager',
-  version: '0.0.1',
+  version: '0.0.2',
   summary: 'A manager for Meteor subscriptions',
   git: '',
   documentation: 'README.md'
