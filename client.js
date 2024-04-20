@@ -1,3 +1,4 @@
+import { ReactiveVar } from 'meteor/reactive-var';
 import { Tracker } from 'meteor/tracker';
 import _ from 'lodash';
 
@@ -54,7 +55,10 @@ export function registerSub(sub, client, options) {
 
     if (!alreadyRegisteredSub) {
         const subName = sub.name;
-        const subArgs = sub.args || [];
+        const subArgs =
+            _.isArray(sub.args)     ? sub.args
+          : _.isUndefined(sub.args) ? []
+          : [sub.args];
         const subReady = new ReactiveVar(false);
         const subHandle = Tracker.nonreactive(() => {
             return Meteor.subscribe(subName, ...subArgs, {onReady: () => subReady.set(true)});
