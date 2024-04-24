@@ -166,6 +166,23 @@ export function unregisterSub(sub, client) {
 }
 
 
+/**
+ *
+ * @param {Object} sub The Meteor subscription to unregister.
+ * @param {string} sub.name  The name of the Meteor subscription.
+ * @param {Array} [sub.args] The args array of the Meteor subscription.
+ * @returns {boolean} Whether the sub has already been registered (by any client).
+ */
+export function subAlreadyExists(sub) {
+    if (!sub?.name) {
+        throw new Error(`sub must be an object with shape {name, args}. Provided ${sub}`);
+    }
+
+    const subKey = genKey(sub);
+    return _.has(subsManager, subKey);
+}
+
+
 function removeClientAndStopSubscriptionIfLast(client, hash, subsManager) {
     const subInfo = subsManager[hash];
     const clients = subInfo.clients;
